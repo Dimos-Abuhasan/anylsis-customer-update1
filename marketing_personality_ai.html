@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PersonaAI — Brand Voice & Marketing Automation Hub</title>
+
+  <!-- Typography & Styling -->
+  <link rel="icon" type="image/png" href="IGY.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* Premium Glassmorphic Design Tokens */
+    :root {
+      --bg-dark: #0a0915;
+      --bg-gradient: linear-gradient(135deg, #0f0c20 0%, #15102a 50%, #06050b 100%);
+      --glass-bg: rgba(20, 16, 38, 0.45);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-border-focus: rgba(168, 85, 247, 0.4);
+      --text-main: #f3f1fc;
+      --text-muted: #a19bb8;
+
+      --accent-purple: #a855f7;
+      --accent-indigo: #6366f1;
+      --accent-cyan: #06b6d4;
+      --accent-pink: #ec4899;
+      --accent-glow: rgba(168, 85, 247, 0.35);
+
+      --font-header: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
+
+      --transition-smooth: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Background Glows */
+    .ambient-glow-1 {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-purple) 0%, rgba(168, 85, 247, 0) 70%);
+      top: -200px;
+      left: -150px;
+      opacity: 0.15;
+      filter: blur(80px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .ambient-glow-2 {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-indigo) 0%, rgba(99, 102, 241, 0) 70%);
+      bottom: -100px;
+      right: -100px;
+      opacity: 0.15;
+      filter: blur(80px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header Styling */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 1.5rem;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo-icon {
+      background: linear-gradient(135deg, var(--accent-purple), var(--accent-indigo));
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .logo-text {
+      font-family: var(--font-header);
+      font-weight: 800;
+      font-size: 1.6rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #fff, #c084fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .logo-tag {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #e9d5ff;
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      margin-left: 0.5rem;
+    }
+
+    .system-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 0.5rem 1rem;
+      border-radius: 99px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    /* Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Card styling */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 2rem;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-title {
+      font-family: var(--font-header);
+      font-weight: 700;
+      font-size: 1.35rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #fff;
+    }
+
+    .card-title svg {
+      width: 22px;
+      height: 22px;
+      color: var(--accent-purple);
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      transition: var(--transition-smooth);
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--glass-border-focus);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.15);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Style the option elements in dark mode */
+    .form-select option {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+    }
+
+    /* Custom Range Sliders */
+    .slider-container {
+      margin-top: 1.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      padding: 1.25rem;
+      border-radius: 12px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .custom-range {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.1);
+      outline: none;
+      transition: var(--transition-smooth);
+    }
+
+    .custom-range::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-purple), var(--accent-indigo));
+      cursor: pointer;
+      box-shadow: 0 0 8px var(--accent-glow);
+      transition: var(--transition-smooth);
+    }
+
+    .custom-range::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* Primary Generate Button */
+    .btn-generate {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-indigo) 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 1.1rem;
+      font-family: var(--font-header);
+      font-weight: 600;
+      font-size: 1.05rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      box-shadow: 0 6px 20px rgba(168, 85, 247, 0.3);
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-generate::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+      transition: 0.5s;
+    }
+
+    .btn-generate:hover::before {
+      left: 100%;
+    }
+
+    .btn-generate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(168, 85, 247, 0.45);
+    }
+
+    .btn-generate:active {
+      transform: translateY(0);
+    }
+
+    /* Output Section & Navigation Tabs */
+    .output-column {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      min-height: 600px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.4rem;
+      border-radius: 14px;
+      border: 1px solid var(--glass-border);
+      margin-bottom: 0.5rem;
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-radius: 10px;
+      color: var(--text-muted);
+      padding: 0.75rem 1rem;
+      font-family: var(--font-header);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: var(--transition-smooth);
+    }
+
+    .tab-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tab-btn.active {
+      color: #fff;
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      box-shadow: inset 0 0 10px rgba(168, 85, 247, 0.1);
+    }
+
+    /* Tab Content panels */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Empty state display */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state svg {
+      width: 64px;
+      height: 64px;
+      stroke-width: 1.5;
+      color: rgba(168, 85, 247, 0.35);
+      margin-bottom: 1.5rem;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .empty-state h3 {
+      color: #fff;
+      font-family: var(--font-header);
+      font-weight: 600;
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+      max-width: 400px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    /* Brand Archetype display component */
+    .archetype-banner {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .archetype-badge {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #e9d5ff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .archetype-name {
+      font-family: var(--font-header);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #fff;
+      background: linear-gradient(to right, #ffffff, #d8b4fe);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+
+    .archetype-tagline {
+      font-style: italic;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-top: 0.25rem;
+    }
+
+    .archetype-illustration {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--glass-border);
+      flex-shrink: 0;
+    }
+
+    .archetype-illustration svg {
+      width: 44px;
+      height: 44px;
+      color: var(--accent-purple);
+    }
+
+    /* General dashboard grid cards */
+    .dashboard-subgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .accent-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: var(--transition-smooth);
+    }
+
+    .accent-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(168, 85, 247, 0.15);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .accent-card-title {
+      font-family: var(--font-header);
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .accent-card-title svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag-item {
+      padding: 0.35rem 0.75rem;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
+
+    .tag-item.positive {
+      color: #34d399;
+      background: rgba(52, 211, 153, 0.05);
+      border-color: rgba(52, 211, 153, 0.15);
+    }
+
+    .tag-item.negative {
+      color: #f87171;
+      background: rgba(248, 113, 113, 0.05);
+      border-color: rgba(248, 113, 113, 0.15);
+    }
+
+    .bullet-list {
+      list-style-type: none;
+    }
+
+    .bullet-list li {
+      margin-bottom: 0.6rem;
+      padding-left: 1.25rem;
+      position: relative;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      color: var(--text-muted);
+    }
+
+    .bullet-list li::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      color: var(--accent-purple);
+    }
+
+    /* Avatars component styling */
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .avatar-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .avatar-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .avatar-img-placeholder {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-indigo), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-header);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #fff;
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+    }
+
+    .avatar-meta h4 {
+      font-family: var(--font-header);
+      font-size: 1.1rem;
+      color: #fff;
+    }
+
+    .avatar-meta span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .avatar-detail-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--accent-cyan);
+      margin-bottom: 0.25rem;
+    }
+
+    .avatar-detail-value {
+      font-size: 0.85rem;
+      color: var(--text-main);
+      line-height: 1.4;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Copywriting automation styling */
+    .copywriting-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .copywriting-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .copywriting-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .copywriting-label {
+      font-family: var(--font-header);
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .copywriting-label svg {
+      width: 18px;
+      height: 18px;
+      color: var(--accent-purple);
+    }
+
+    .copywriting-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: var(--transition-smooth);
+    }
+
+    .copy-btn:hover {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: rgba(168, 85, 247, 0.35);
+      color: #fff;
+    }
+
+    .copywriting-box {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      padding: 1rem;
+      font-size: 0.92rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      color: #e2e0ed;
+      font-family: var(--font-body);
+    }
+
+    /* Top export action bar */
+    .action-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      padding: 0.7rem 1.2rem;
+      border-radius: 10px;
+      font-family: var(--font-header);
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-smooth);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+
+    /* Loading and notification aesthetics */
+    .spinner {
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border-left-color: #fff;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: rgba(15, 10, 32, 0.9);
+      border: 1px solid var(--accent-purple);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      z-index: 999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 99px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <div class="container">
+
+    <!-- Top Header -->
+    <header>
+      <div class="logo-container">
+        <div class="logo-icon">
+          <img src="IGY.png" alt="IGY Logo" style="width: 24px; height: 24px; object-fit: contain; border-radius: 6px;">
+        </div>
+        <span class="logo-text">PersonaAI</span>
+        <span class="logo-tag">Active</span>
+      </div>
+      <div class="system-status">
+        <div class="status-dot"></div>
+        <span>AI Engine: Online</span>
+      </div>
+    </header>
+
+    <!-- Main Dashboard Grid -->
+    <div class="dashboard-grid">
+
+      <!-- Left Column: Inputs & Architect Panel -->
+      <aside class="glass-card">
+        <h2 class="card-title">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+            stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          Brand Architect
+        </h2>
+
+        <form id="brandForm" onsubmit="event.preventDefault(); generateMarketingPersona();">
+
+          <div class="form-group">
+            <label class="form-label" for="bizName">Business Name</label>
+            <input type="text" id="bizName" class="form-input" placeholder="e.g. ApexFitness, ByteCraft" required
+              value="ByteCraft Solutions">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="bizIndustry">Industry / Niche</label>
+            <select id="bizIndustry" class="form-select">
+              <option value="tech">Tech, SaaS & Software</option>
+              <option value="fitness">Fitness, Health & Wellness</option>
+              <option value="ecommerce">E-commerce, Fashion & Retail</option>
+              <option value="finance">Finance, Crypto & Real Estate</option>
+              <option value="education">Education, Coaching & Consulting</option>
+              <option value="food">Food, Restaurant & Culinary</option>
+              <option value="creative">Creative Studio, Art & Marketing</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="bizDesc">Brief Core Offering</label>
+            <textarea id="bizDesc" class="form-textarea" placeholder="What core problem do you solve?"
+              required>Automated analytics and workflow management for busy product teams to ship code 3x faster without bugs.</textarea>
+          </div>
+
+          <!-- Personality Scales -->
+          <div class="form-group">
+            <label class="form-label">Personality Sliders</label>
+
+            <div class="slider-container">
+              <div class="slider-header">
+                <span>Formal & Elite</span>
+                <span>Casual & Relatable</span>
+              </div>
+              <input type="range" id="scaleFormalCasual" class="custom-range" min="1" max="5" value="4">
+              <div class="slider-labels">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+              </div>
+            </div>
+
+            <div class="slider-container">
+              <div class="slider-header">
+                <span>Practical & Logical</span>
+                <span>Emotional & Inspiring</span>
+              </div>
+              <input type="range" id="scaleLogicEmotion" class="custom-range" min="1" max="5" value="3">
+              <div class="slider-labels">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+              </div>
+            </div>
+
+            <div class="slider-container">
+              <div class="slider-header">
+                <span>Serious & Authoritative</span>
+                <span>Playful & Dynamic</span>
+              </div>
+              <input type="range" id="scaleSeriousPlayful" class="custom-range" min="1" max="5" value="4">
+              <div class="slider-labels">
+                <span>1</span>
+                <span>2</span>
+                <span>3</span>
+                <span>4</span>
+                <span>5</span>
+              </div>
+            </div>
+
+          </div>
+
+          <button type="submit" class="btn-generate" id="btnGen">
+            <span id="btnText">Synthesize Personality</span>
+            <svg id="btnIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2" width="20" height="20">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <div id="btnSpinner" class="spinner" style="display: none;"></div>
+          </button>
+
+        </form>
+      </aside>
+
+      <!-- Right Column: Interactive Tab Output Dashboard -->
+      <main class="output-column">
+
+        <!-- Tab Navigation Bar -->
+        <nav class="nav-tabs">
+          <button class="tab-btn active" onclick="switchTab(event, 'brand-voice')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Voice & Archetype
+          </button>
+          <button class="tab-btn" onclick="switchTab(event, 'audience')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            Target Avatars
+          </button>
+          <button class="tab-btn" onclick="switchTab(event, 'copywriting')">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            Copywriting Hub
+          </button>
+        </nav>
+
+        <!-- Right Bottom Content: Glass Container -->
+        <div class="glass-card" style="flex: 1; padding: 2rem;">
+
+          <!-- Top Action Bar (Visible when data exists) -->
+          <div class="action-bar" id="actionBar" style="display: none;">
+            <button class="btn-secondary" onclick="exportBrandIdentity()">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="2" width="16" height="16">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Export Blueprint
+            </button>
+          </div>
+
+          <!-- 1. EMPTY STATE -->
+          <div id="outputEmpty" class="empty-state">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            <h3>Ready to Build Your Brand Persona?</h3>
+            <p>Fill out the business details on the left, tune your custom scales, and click "Synthesize Personality" to
+              build an advanced brand voice identity instantly!</p>
+          </div>
+
+          <!-- 2. BRAND VOICE TAB -->
+          <div id="brand-voice" class="tab-content">
+
+            <!-- Archetype Banner -->
+            <div class="archetype-banner">
+              <div>
+                <span class="archetype-badge" id="voiceArchetypeBadge">The Creator</span>
+                <h1 class="archetype-name" id="voiceArchetypeName">The Visionary / Innovator</h1>
+                <p class="archetype-tagline" id="voiceArchetypeTagline">"Unlocking tomorrow through bold, creative
+                  systems."</p>
+              </div>
+              <div class="archetype-illustration">
+                <svg id="archetypeIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Details Section -->
+            <div class="dashboard-subgrid">
+
+              <!-- Core Pillars -->
+              <div class="accent-card">
+                <h3 class="accent-card-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  Voice Keywords
+                </h3>
+                <div class="tag-list" id="voiceKeywords">
+                  <span class="tag-item">Visionary</span>
+                  <span class="tag-item">Inspiring</span>
+                  <span class="tag-item">Analytical</span>
+                </div>
+              </div>
+
+              <!-- Brand Core Philosophy -->
+              <div class="accent-card">
+                <h3 class="accent-card-title">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Brand Message Pillars
+                </h3>
+                <p id="voiceCorePhilosophy" style="font-size: 0.9rem; line-height: 1.5; color: var(--text-muted);">
+                  Focused on bringing simplicity, extreme efficiency, and unparalleled control directly to
+                  forward-thinking individuals.
+                </p>
+              </div>
+
+            </div>
+
+            <!-- Dos and Don'ts -->
+            <div class="dashboard-subgrid">
+
+              <div class="accent-card">
+                <h3 class="accent-card-title" style="color: #34d399;">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Voice: What to DO
+                </h3>
+                <ul class="bullet-list" id="voiceDos">
+                  <li>Use actionable, benefit-first vocabulary to drive focus.</li>
+                  <li>Speak from a position of trusted domain experience.</li>
+                </ul>
+              </div>
+
+              <div class="accent-card">
+                <h3 class="accent-card-title" style="color: #f87171;">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Voice: What to AVOID
+                </h3>
+                <ul class="bullet-list" id="voiceDonts">
+                  <li>Avoid generic fluff or buzzwords without solid proof.</li>
+                  <li>Do not sound stuffy or excessively robotic.</li>
+                </ul>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- 3. TARGET AVATARS TAB -->
+          <div id="audience" class="tab-content">
+            <h3 class="card-title" style="margin-bottom: 1.5rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              Target Customer Profiles
+            </h3>
+
+            <div class="avatar-grid" id="avatarsContainer">
+              <!-- Dynamically populated avatar cards go here -->
+            </div>
+          </div>
+
+          <!-- 4. COPYWRITING AUTOMATION TAB -->
+          <div id="copywriting" class="tab-content">
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+              <h3 class="card-title" style="margin-bottom: 0;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                </svg>
+                Copywriting Automation Suite
+              </h3>
+
+              <!-- Internal Sub-category toggles for Copywriting -->
+              <div style="display: flex; gap: 0.35rem;">
+                <button class="copy-btn" id="subTabSocial" onclick="switchCopySubTab('social')"
+                  style="background: rgba(168, 85, 247, 0.2); border-color: rgba(168, 85, 247, 0.3);">Social
+                  Media</button>
+                <button class="copy-btn" id="subTabEmail" onclick="switchCopySubTab('email')">Email Campaigns</button>
+                <button class="copy-btn" id="subTabAds" onclick="switchCopySubTab('ads')">Digital Ads</button>
+              </div>
+            </div>
+
+            <!-- Content boxes under sub-categories -->
+            <div class="copywriting-grid" id="copySubGroupSocial">
+
+              <div class="copywriting-card">
+                <div class="copywriting-header">
+                  <span class="copywriting-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    LinkedIn Thought Leadership Hook
+                  </span>
+                  <button class="copy-btn" onclick="copyToClipboard('copyLinkedIn')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                      stroke-width="2" width="14" height="14">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                    Copy
+                  </button>
+                </div>
+                <div class="copywriting-box" id="copyLinkedIn">Generating...</div>
+              </div>
+
+              <div class="copywriting-card">
+                <div class="copywriting-header">
+                  <span class="copywriting-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    Instagram Micro-Blog & Image Hook
+                  </span>
+                  <button class="copy-btn" onclick="copyToClipboard('copyInsta')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                      stroke-width="2" width="14" height="14">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                    Copy
+                  </button>
+                </div>
+                <div class="copywriting-box" id="copyInsta">Generating...</div>
+              </div>
+
+              <div class="copywriting-card">
+                <div class="copywriting-header">
+                  <span class="copywriting-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                    </svg>
+                    X (Twitter) Short Punchy Statement
+                  </span>
+                  <button class="copy-btn" onclick="copyToClipboard('copyX')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                      stroke-width="2" width="14" height="14">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                    Copy
+                  </button>
+                </div>
+                <div class="copywriting-box" id="copyX">Generating...</div>
+              </div>
+
+            </div>
+
+            <div class="copywriting-grid" id="copySubGroupEmail" style="display: none;">
+
+              <div class="copywriting-card">
+                <div class="copywriting-header">
+                  <span class="copywriting-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Email Blast: Benefit & Story Introduction
+                  </span>
+                  <button class="copy-btn" onclick="copyToClipboard('copyEmailBlast')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                      stroke-width="2" width="14" height="14">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                    Copy
+                  </button>
+                </div>
+                <div class="copywriting-box" id="copyEmailBlast">Generating...</div>
+              </div>
+
+              <div class="copywriting-card">
+                <div class="copywriting-header">
+                  <span class="copywriting-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5a2 2 0 10-2 2h2zm0 0h4l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4h4z" />
+                    </svg>
+                    Promo/Offer Email: High urgency
+                  </span>
+                  <button class="copy-btn" onclick="copyToClipboard('copyEmailPromo')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                      stroke-width="2" width="14" height="14">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                    Copy
+                  </button>
+                </div>
+                <div class="copywriting-box" id="copyEmailPromo">Generating...</div>
+              </div>
+
+            </div>
+
+            <div class="copywriting-grid" id="copySubGroupAds" style="display: none;">
+
+              <div class="copywriting-card">
+                <div class="copywriting-header">
+                  <span class="copywriting-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    Google Search Ad (CTR Optimizer)
+                  </span>
+                  <button class="copy-btn" onclick="copyToClipboard('copyGoogleAd')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                      stroke-width="2" width="14" height="14">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                    Copy
+                  </button>
+                </div>
+                <div class="copywriting-box" id="copyGoogleAd">Generating...</div>
+              </div>
+
+              <div class="copywriting-card">
+                <div class="copywriting-header">
+                  <span class="copywriting-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    Social Media Ad Copy (Hook, Story, Offer)
+                  </span>
+                  <button class="copy-btn" onclick="copyToClipboard('copySocialAd')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                      stroke-width="2" width="14" height="14">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                    Copy
+                  </button>
+                </div>
+                <div class="copywriting-box" id="copySocialAd">Generating...</div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+  <!-- Copied toast -->
+  <div id="copyToast" class="toast">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
+      width="20" height="20" style="color: #34d399;">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span id="toastMsg">Copied successfully!</span>
+  </div>
+
+  <!-- Dashboard AI Logic Engine -->
+  <script>
+    // Global generation state
+    let lastGeneratedData = null;
+
+    // Switch between Main Tabs
+    function switchTab(e, tabId) {
+      // Deactivate all tabs
+      const tabs = document.querySelectorAll('.tab-btn');
+      tabs.forEach(t => t.classList.remove('active'));
+
+      // Hide all content
+      const content = document.querySelectorAll('.tab-content');
+      content.forEach(c => c.classList.remove('active'));
+
+      // Activate clicked
+      e.currentTarget.classList.add('active');
+
+      // Show destination content (only if we have generated content, or if tab is Voice)
+      const target = document.getElementById(tabId);
+      if (target) {
+        target.classList.add('active');
+      }
+    }
+
+    // Switch between Copywriting Hub Sub-categories
+    function switchCopySubTab(subCategory) {
+      const subTabs = ['social', 'email', 'ads'];
+      subTabs.forEach(s => {
+        const btn = document.getElementById('subTab' + s.charAt(0).toUpperCase() + s.slice(1));
+        const grp = document.getElementById('copySubGroup' + s.charAt(0).toUpperCase() + s.slice(1));
+        if (s === subCategory) {
+          btn.style.background = 'rgba(168, 85, 247, 0.2)';
+          btn.style.borderColor = 'rgba(168, 85, 247, 0.3)';
+          grp.style.display = 'flex';
+        } else {
+          btn.style.background = 'rgba(255, 255, 255, 0.04)';
+          btn.style.borderColor = 'rgba(255, 255, 255, 0.06)';
+          grp.style.display = 'none';
+        }
+      });
+    }
+
+    // Interactive Toast Notification
+    function showToast(message) {
+      const toast = document.getElementById('copyToast');
+      document.getElementById('toastMsg').innerText = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // Copy to clipboard helper
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      if (!text || text === "Generating...") return;
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Copy successful!");
+      }).catch(err => {
+        console.error('Could not copy text: ', err);
+      });
+    }
+
+    // THE AI GENERATION ENGINE
+    function generateMarketingPersona() {
+      const name = document.getElementById('bizName').value.trim();
+      const industry = document.getElementById('bizIndustry').value;
+      const desc = document.getElementById('bizDesc').value.trim();
+
+      const sFormal = parseInt(document.getElementById('scaleFormalCasual').value);
+      const sEmotion = parseInt(document.getElementById('scaleLogicEmotion').value);
+      const sPlayful = parseInt(document.getElementById('scaleSeriousPlayful').value);
+
+      // Loading State Trigger
+      const btnGen = document.getElementById('btnGen');
+      const btnText = document.getElementById('btnText');
+      const btnIcon = document.getElementById('btnIcon');
+      const btnSpinner = document.getElementById('btnSpinner');
+
+      btnGen.disabled = true;
+      btnText.innerText = "Analyzing Industry Dynamics...";
+      btnIcon.style.display = 'none';
+      btnSpinner.style.display = 'block';
+
+      setTimeout(() => {
+        btnText.innerText = "Synthesizing AI Blueprint...";
+
+        setTimeout(() => {
+          // Complete synthesis pipeline
+          const blueprint = runPersonaLogic(name, industry, desc, sFormal, sEmotion, sPlayful);
+          lastGeneratedData = blueprint;
+
+          // Render Blueprint directly to Dashboard
+          renderBlueprintToUI(blueprint);
+
+          // Reset Loading Button State
+          btnGen.disabled = false;
+          btnText.innerText = "Synthesize Personality";
+          btnIcon.style.display = 'block';
+          btnSpinner.style.display = 'none';
+
+          showToast("AI Personality Synthesized!");
+        }, 1000);
+      }, 1000);
+    }
+
+    // Run core matching algorithm
+    function runPersonaLogic(name, industry, desc, sFormal, sEmotion, sPlayful) {
+      // 1. Archetype selection rules
+      let archetype = "";
+      let archetypeSub = "";
+      let tagline = "";
+      let icon = "";
+
+      if (sFormal <= 2 && sEmotion >= 4) {
+        archetype = "The Magician / Visionary";
+        archetypeSub = "The Magician";
+        tagline = `Transforming the way ${name} shapes the boundaries of modern possibilities.`;
+        icon = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />`;
+      } else if (sFormal >= 4 && sPlayful <= 2) {
+        archetype = "The Sage / Elite Counsel";
+        archetypeSub = "The Sage";
+        tagline = `Engineered intelligence. Delivering high-precision domain leadership for ${name}.`;
+        icon = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />`;
+      } else if (sPlayful >= 4 && sFormal >= 3) {
+        archetype = "The Outlaw / Rebel";
+        archetypeSub = "The Rebel";
+        tagline = `Tearing down conventions. Bold, honest, and completely unapologetic.`;
+        icon = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />`;
+      } else if (sPlayful >= 4 && sFormal <= 2) {
+        archetype = "The Jester / Creative Dynamo";
+        archetypeSub = "The Jester";
+        tagline = `Brightening workflows. Bringing sheer joy, dynamic action, and effortless scaling.`;
+        icon = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />`;
+      } else if (sEmotion >= 4) {
+        archetype = "The Lover / Empathetic Partner";
+        archetypeSub = "The Lover";
+        tagline = `Putting your human experience first. Because growth thrives in supportive ecosystems.`;
+        icon = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />`;
+      } else {
+        archetype = "The Hero / Unstoppable Catalyst";
+        archetypeSub = "The Hero";
+        tagline = `Empowering teams to overcome complexity and dominate their operational market.`;
+        icon = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />`;
+      }
+
+      // 2. Synthesize Tone keywords & brand strategy
+      const industryTerms = {
+        tech: { keywords: ["Disruptive", "Hyper-Efficient", "Seamless"], philosophy: "Democratizing powerful system infrastructure to eliminate digital bottlenecks forever." },
+        fitness: { keywords: ["Relentless", "Dynamic", "Uplifting"], philosophy: "Building lifelong athletic foundations through personalized, expert-guided mastery." },
+        ecommerce: { keywords: ["Trendsetting", "Premium", "Charming"], philosophy: "Bringing highly curated, aesthetic visual expressions straight to your lifestyle." },
+        finance: { keywords: ["Bulletproof", "Precise", "Strategic"], philosophy: "Demystifying wealth and high-yield security to secure intergenerational stability." },
+        education: { keywords: ["Impactful", "Authoritative", "Empowering"], philosophy: "Unlocking structural skill sets to transition learners into real-world practitioners." },
+        food: { keywords: ["Sensory", "Artisanal", "Welcoming"], philosophy: "Celebrating seasonal, sustainably grown flavors engineered to bring groups together." },
+        creative: { keywords: ["Bold", "Unorthodox", "Enigmatic"], philosophy: "Transforming standard client briefs into high-impact, award-winning visual experiences." }
+      };
+
+      const baseTone = industryTerms[industry] || industryTerms.tech;
+
+      // Override or adjust keywords based on sliders
+      let activeKeywords = [...baseTone.keywords];
+      if (sFormal >= 4) activeKeywords[0] = "Sophisticated";
+      if (sFormal <= 2) activeKeywords[0] = "Conversational";
+      if (sEmotion >= 4) activeKeywords[1] = "Heart-Centered";
+      if (sEmotion <= 2) activeKeywords[1] = "Data-Driven";
+      if (sPlayful >= 4) activeKeywords[2] = "High-Energy";
+      if (sPlayful <= 2) activeKeywords[2] = "Calibrated";
+
+      // Dos and Don'ts synthesis
+      const dos = [];
+      const donts = [];
+
+      if (sFormal >= 4) {
+        dos.push("Maintain immaculate grammar and structural polish.");
+        dos.push("Establish clear expert authority by using exact metrics.");
+        donts.push("Avoid internet slang, emoji-overload, or loose abbreviations.");
+        donts.push("Do not address the audience too casually; preserve professional respect.");
+      } else {
+        dos.push("Speak directly as a co-collaborator or peer using first person ('we', 'you').");
+        dos.push("Infuse organic personality, contractions, and modern expressions.");
+        donts.push("Never sound cold, excessively academic, or distant.");
+        donts.push("Avoid heavy walls of dense text; break copy up into scannable ideas.");
+      }
+
+      if (sEmotion >= 4) {
+        dos.push("Focus on storytelling, user transformation, and overcoming human frustration.");
+        dos.push("Acknowledge the personal struggle and paint a vivid post-solution vision.");
+        donts.push("Do not lead with dry features or purely technical system attributes.");
+      } else {
+        dos.push("Lead with quantifiable facts, high performance margins, and objective ROI.");
+        dos.push("Clarify simple, logical, and structured step-by-step integrations.");
+        donts.push("Avoid overly dramatic hype, emotional pleas, or abstract ideas.");
+      }
+
+      // Generate 3 Customer Avatars
+      const avatars = generateAvatars(industry, sFormal, sEmotion, sPlayful);
+
+      // Generate actual copy suites
+      const copywriting = generateCopySuite(name, industry, desc, activeKeywords, sFormal, sEmotion, sPlayful, archetypeSub);
+
+      return {
+        name,
+        industry,
+        desc,
+        archetype,
+        archetypeSub,
+        tagline,
+        icon,
+        keywords: activeKeywords,
+        philosophy: baseTone.philosophy,
+        dos,
+        donts,
+        avatars,
+        copywriting
+      };
+    }
+
+    // Helper: Generate Avatars based on inputs
+    function generateAvatars(industry, sFormal, sEmotion, sPlayful) {
+      const data = {
+        tech: [
+          { name: "Devon Croft", role: "VP of Product Development", age: 34, pain: "Dev teams stuck writing redundant boilerplate. Shipping schedules constantly slipping.", motives: "Standardize code pipelines and cut deployment cycles in half safely.", msg: "Let them write core logic, while PersonaAI automates the boilerplate." },
+          { name: "Aria Sterling", role: "Indie SaaS Founder", age: 28, pain: "Wearing 10 hats. Zero time to write social copy or outline targeted landing pages.", motives: "Fast, highly engaging copies that drive active sign-ups on autopilot.", msg: "Generate 1 month of premium copywriting in 2 clicks. Focus on building." },
+          { name: "Marcus Chen", role: "Enterprise IT Director", age: 46, pain: "Security compliance overhead. Fear of third-party leaks and unpredictable integrations.", motives: "Secure, reliable, and highly stable automated business logic.", msg: "Enterprise security meets lightning-fast operations. Pure stability." }
+        ],
+        fitness: [
+          { name: "Coach Sarah", role: "Boutique Gym Owner", age: 31, pain: "Struggling to keep local members engaged and committed after their first month.", motives: "Deliver clean, high-energy challenges and custom, community-focused content.", msg: "Turn workout routines into a shared lifestyle they look forward to every day." },
+          { name: "Alex Mercer", role: "Busy Corporate Lawyer", age: 39, pain: "Exhausted after 12-hour desk work. Zero mental capacity left to plan high-yield workouts.", motives: "Ultra-efficient, pre-planned athletic protocols that fit into rigid calendars.", msg: "No thinking required. Just maximum physical performance in 40 minutes flat." },
+          { name: "Elena Rostova", role: "Online Fitness Coach", age: 26, pain: "Manual client tracking is cluttering her direct messages. Scalability is totally capped.", motives: "Automate onboarding check-ins and systemize dynamic training packages.", msg: "Ditch the spreadsheets. Scale to 100+ clients with automated checking templates." }
+        ],
+        ecommerce: [
+          { name: "Chloe Fontaine", role: "Boutique Label Designer", age: 29, pain: "Amazing products, but ad costs are rising and post engagement is lower than ever.", motives: "Visual hooks and copy that turn passive scrollers into passionate brand advocates.", msg: "Unique style isn't generic. Your copywriting shouldn't be either." },
+          { name: "Julian Vance", role: "Dropshipping Specialist", age: 24, pain: "Finding profitable products is hard; writing high-converting ad hooks is even harder.", motives: "Rapid testing of high-impact ad copy variations that instantly capture intent.", msg: "Unleash scroll-stopping copywriting angles built to convert cold traffic." },
+          { name: "Rachel Green", role: "Sustainable Brand Director", age: 35, pain: "Communicating the deep eco-friendly value without sounding dry or preachy.", motives: "Elegant narrative storytelling that justifies a premium, conscious price point.", msg: "Ethical fashion meets state-of-the-art craftsmanship. Read our story." }
+        ]
+      };
+
+      // Fallback or generic avatar generator if industry is not fully listed
+      const industryKey = data[industry] ? industry : "tech";
+      return data[industryKey];
+    }
+
+    // Helper: Generate Copywriting suites based on inputs
+    function generateCopySuite(name, industry, desc, keywords, sFormal, sEmotion, sPlayful, archetype) {
+      // Structure templates based on tone sliders
+      let linkedin = "";
+      let instagram = "";
+      let xThread = "";
+      let emailBlast = "";
+      let emailPromo = "";
+      let googleAd = "";
+      let socialAd = "";
+
+      const industryAdjective = keywords[0];
+      const emotionalTrigger = keywords[1];
+      const toneAdjective = keywords[2];
+
+      // Social Media Tones
+      if (sFormal >= 4) {
+        linkedin = `🚀 The architecture of operational speed is changing rapidly.
+
+At ${name}, we have carefully analyzed how modern organizations manage their workflows. The findings are clear: over 42% of a developer's cognitive energy is lost to administrative overhead and micro-debugging.
+
+Our new solution directly resolves this bottleneck by implementing high-performance, automated pipeline optimizations. 
+
+The outcome? Teams ship critical updates up to 3x faster, with a measured 94% reduction in recurring regression issues.
+
+Read the technical integration blueprint here: [Link] #SaaS #Productivity #EngineeringLeadership`;
+
+        instagram = `Elite organizations don't guess. They calibrate. 📊
+
+Introducing ${name} — a structured system engineered specifically for team operations looking to reclaim high-performance margins. 
+
+By automating administrative bottlenecks, we empower your primary creators to focus entirely on core development. 
+
+✦ Up to 3x faster shipping cycles
+✦ Flawless system stability
+✦ Zero administrative friction
+
+Visit the link in our bio to access our enterprise operational whitepaper. ✨
+
+#Performance #Innovation #Operations`;
+
+        xThread = `1/ Operational drag is the silent killer of modern startups.
+
+If your product team is spending more than 15% of their sprint cycle on administrative boilerplate and manual checks, you are leaking critical run-rate. 
+
+Here is how ${name} resolves this. 👇`;
+
+      } else {
+        // Casual / Playful / Emotional
+        linkedin = `Let's be completely honest: nobody went into software development because they loved writing boilerplate and waiting around for manual deployments to run. 🤷‍♂️
+
+Yet, most product teams are still wasting hours every single week on tasks that should have been automated years ago. 
+
+That is why we built ${name}. 
+
+We wanted to create a platform that handles the boring, time-consuming administrative work, so you and your team can actually focus on doing what you do best: building awesome products. 
+
+The results? Product teams are shipping up to 3x faster and having a lot more fun doing it. 
+
+Wanna see how we do it? Drop a comment below and I'll send over a 2-minute demo. 👇 #DeveloperLife #SaaS #BuildInPublic`;
+
+        instagram = `Stop wasting your best creative energy on tasks a machine could do in 2 seconds. ⚡️
+
+At ${name}, we believe in making building fun again. Our tools automate the boring administrative work so you can focus on shipping features your users will actually love.
+
+Here is what you get:
+🚀 Ship code up to 3x faster
+🎉 Zero boring boilerplate
+🔥 Absolute creative freedom
+
+Hit the link in our bio to try it for free today! Let's build something epic. 💻✨
+
+#StartupLife #Coding #SoftwareEngineering #DeveloperCommunity`;
+
+        xThread = `Product teams are burning out, but it's not because the work is too hard.
+
+It's because they are spending 50% of their day fighting administrative tools and manual pipelines instead of building.
+
+Here is how we're fixing this at ${name} 🧵👇`;
+      }
+
+      // Email templates
+      if (sEmotion >= 4) {
+        emailBlast = `Subject: The real reason your team is feeling burnt out...
+
+Hey there,
+
+You know that feeling of looking at a massive roadmap, knowing your team is working as hard as they can, but somehow the features are still slipping?
+
+It is incredibly frustrating. You want to ship beautiful, clean work. You want to see your users excited. But instead, you are stuck dealing with constant bugs, broken pipelines, and infinite meetings.
+
+We built ${name} because we have been exactly where you are. 
+
+We realized that developers don't need to work longer hours. They just need to be freed from the constant administrative noise.
+
+With our automated optimization dashboard, we take the heavy lifting off your team's shoulders. We handle the pipelines, clean up the boilerplate, and clear the runway.
+
+The result? A team that is not only shipping code 3x faster, but a team that actually feels energized, creative, and proud of their work again.
+
+👉 Read the stories of founders who reclaimed their sanity: [Link]
+
+Talk soon,
+The ${name} Team`;
+
+        emailPromo = `Subject: Ready to stop fighting your own code? [Special Access Inside]
+
+Hey,
+
+If you are waiting for a sign to finally clean up your operational workflows and give your developers breathing room—this is it.
+
+For the next 48 hours, we are opening up custom onboarding strategy slots for product teams ready to make a change.
+
+Here is what we'll do together:
+1. Audit your team's current development bottleneck (absolutely free).
+2. Install ${name}'s automated pipelines in under 15 minutes.
+3. Lock in a permanent 30% discount on your team licenses.
+
+Your team deserves to build beautiful code without constant burnout. Let's make it happen.
+
+👉 Claim your onboarding session here: [Link]
+
+Best,
+The ${name} Team`;
+      } else {
+        // Practical / Logical
+        emailBlast = `Subject: Case Study: How to increase shipping speed by 300%
+
+Hello,
+
+The efficiency of a product engineering team directly impacts a company's bottom-line growth. 
+
+However, standard development teams lose an average of 14 hours per engineer, every single week, due to administrative tasks, manual regression checks, and configuration overhead.
+
+At ${name}, we built a deterministic automation suite designed to eliminate this exact operational leakage.
+
+Here are the verified metrics from our recent deployment integrations:
+- Cycle Time: Reduced by 68%
+- Deployment Frequency: Increased from bi-weekly to daily (3x speed)
+- Error Rate: 0.04% post-automation
+
+We have detailed the complete engineering framework in our new technical case study.
+
+👉 Access the technical case study here: [Link]
+
+Best regards,
+The Product Operations Team at ${name}`;
+
+        emailPromo = `Subject: ROI Calculator: What is manual pipeline management costing you?
+
+Hello,
+
+Based on our industry data, a team of 10 developers wastes approximately $120,000 annually on repetitive administrative tasks and manual pipeline maintenance.
+
+With ${name}, you can automate these exact workflows in less than a day, shifting your engineering output immediately.
+
+Here is the operational ROI our clients experience:
+- Automated pipelines set up in <30 minutes.
+- Immediate 3x increase in weekly feature shipments.
+- Break-even ROI achieved within the first 45 days.
+
+We are currently offering technical onboarding reviews for new engineering teams. Schedule a call with an integration architect below:
+
+👉 Schedule Technical Onboard Call: [Link]
+
+Sincerely,
+Integration Team, ${name}`;
+      }
+
+      // Ad Copies
+      googleAd = `Headline: Ship Code 3x Faster | Eliminate Repetitive Coding | Try ${name}
+Description: Automate your code pipeline, clear your roadmap, and build without limits. Get started for free today.`;
+
+      socialAd = `🚨 ATTENTION PRODUCT LEADERS 🚨
+
+Is your development team actually shipping features, or are they constantly stuck fighting manual pipelines, slow testing, and repetitive boilerplate?
+
+Every hour your team spends on administrative tasks is an hour your competitors are using to out-innovate you.
+
+With ${name}, you can automate the entire workflow. 
+
+Get your team back to doing what they love: building world-class features.
+
+✅ 3x faster shipping cycles
+✅ Zero manual deployment friction
+✅ Flawless system stability
+
+Stop leaking operational run-rate. Click below to start your free 14-day trial! 🚀`;
+
+      return {
+        linkedin,
+        instagram,
+        xThread,
+        emailBlast,
+        emailPromo,
+        googleAd,
+        socialAd
+      };
+    }
+
+    // Render the generated blueprint onto the dashboard
+    function renderBlueprintToUI(bp) {
+      // 1. Show dynamic elements and hide empty state
+      document.getElementById('outputEmpty').style.display = 'none';
+      document.getElementById('actionBar').style.display = 'flex';
+
+      // Update brand voice tab
+      document.getElementById('brand-voice').classList.add('active');
+
+      document.getElementById('voiceArchetypeBadge').innerText = bp.archetypeSub;
+      document.getElementById('voiceArchetypeName').innerText = bp.archetype;
+      document.getElementById('voiceArchetypeTagline').innerText = `"${bp.tagline}"`;
+      document.getElementById('archetypeIcon').innerHTML = bp.icon;
+
+      // Render Tone Keywords
+      const keywordContainer = document.getElementById('voiceKeywords');
+      keywordContainer.innerHTML = '';
+      bp.keywords.forEach(kw => {
+        const span = document.createElement('span');
+        span.className = 'tag-item';
+        span.innerText = kw;
+        keywordContainer.appendChild(span);
+      });
+
+      document.getElementById('voiceCorePhilosophy').innerText = bp.philosophy;
+
+      // Render Dos & Don'ts
+      const dosContainer = document.getElementById('voiceDos');
+      dosContainer.innerHTML = '';
+      bp.dos.forEach(d => {
+        const li = document.createElement('li');
+        li.innerText = d;
+        dosContainer.appendChild(li);
+      });
+
+      const dontsContainer = document.getElementById('voiceDonts');
+      dontsContainer.innerHTML = '';
+      bp.donts.forEach(d => {
+        const li = document.createElement('li');
+        li.innerText = d;
+        dontsContainer.appendChild(li);
+      });
+
+      // 2. Render target avatars tab
+      const avatarsContainer = document.getElementById('avatarsContainer');
+      avatarsContainer.innerHTML = '';
+      bp.avatars.forEach(av => {
+        const initial = av.name.charAt(0);
+        const card = document.createElement('div');
+        card.className = 'avatar-card';
+        card.innerHTML = `
+          <div class="avatar-header">
+            <div class="avatar-img-placeholder">${initial}</div>
+            <div class="avatar-meta">
+              <h4>${av.name}</h4>
+              <span>${av.role} (Age ${av.age})</span>
+            </div>
+          </div>
+          <div>
+            <div class="avatar-detail-label">Core Pain Point</div>
+            <div class="avatar-detail-value">${av.pain}</div>
+            
+            <div class="avatar-detail-label">Buying Motive</div>
+            <div class="avatar-detail-value">${av.motives}</div>
+            
+            <div class="avatar-detail-label">Ideal Brand Message</div>
+            <div class="avatar-detail-value" style="font-style: italic; color: var(--text-muted);">"${av.msg}"</div>
+          </div>
+        `;
+        avatarsContainer.appendChild(card);
+      });
+
+      // 3. Render copywriting tab
+      document.getElementById('copyLinkedIn').innerText = bp.copywriting.linkedin;
+      document.getElementById('copyInsta').innerText = bp.copywriting.instagram;
+      document.getElementById('copyX').innerText = bp.copywriting.xThread;
+
+      document.getElementById('copyEmailBlast').innerText = bp.copywriting.emailBlast;
+      document.getElementById('copyEmailPromo').innerText = bp.copywriting.emailPromo;
+
+      document.getElementById('copyGoogleAd').innerText = bp.copywriting.googleAd;
+      document.getElementById('copySocialAd').innerText = bp.copywriting.socialAd;
+    }
+
+    // Export comprehensive Brand Guide to a downloadable text file
+    function exportBrandIdentity() {
+      if (!lastGeneratedData) return;
+      const bp = lastGeneratedData;
+
+      let content = `===========================================================
+PERSONAAI - BUSINESS BRAND IDENTITY & COPYWRITING BLUEPRINT
+===========================================================
+Business Name: ${bp.name}
+Industry: ${bp.industry.toUpperCase()}
+Core Offering: ${bp.desc}
+
+-----------------------------------------------------------
+1. BRAND VOICE & PERSONALITY ARCHETYPE
+-----------------------------------------------------------
+Brand Archetype: ${bp.archetype}
+Core Tagline: "${bp.tagline}"
+Tone Keywords: ${bp.keywords.join(', ')}
+Brand Philosophy: ${bp.philosophy}
+
+VOICE GUIDELINES (DOs):
+${bp.dos.map(d => ` - ${d}`).join('\n')}
+
+VOICE GUIDELINES (AVOID):
+${bp.donts.map(d => ` - ${d}`).join('\n')}
+
+-----------------------------------------------------------
+2. TARGET CUSTOMER AVATARS
+-----------------------------------------------------------
+${bp.avatars.map((av, idx) => `AVATAR #${idx + 1}: ${av.name} (${av.role}, Age ${av.age})
+ - Pain Point: ${av.pain}
+ - Motive: ${av.motives}
+ - Core Message: "${av.msg}"`).join('\n\n')}
+
+-----------------------------------------------------------
+3. TAILORED COPYWRITING SUITE
+-----------------------------------------------------------
+[LINKEDIN POST]
+${bp.copywriting.linkedin}
+
+[INSTAGRAM CAPTION]
+${bp.copywriting.instagram}
+
+[X / TWITTER THREAD HOOK]
+${bp.copywriting.xThread}
+
+[EMAIL BLAST]
+${bp.copywriting.emailBlast}
+
+[EMAIL PROMO]
+${bp.copywriting.emailPromo}
+
+[GOOGLE SEARCH AD]
+${bp.copywriting.googleAd}
+
+[SOCIAL MEDIA AD COPY]
+${bp.copywriting.socialAd}
+
+===========================================================
+Generated via PersonaAI Dashboard.
+===========================================================`;
+
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${bp.name.toLowerCase().replace(/\s+/g, '_')}_brand_identity.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showToast("Blueprint file downloaded!");
+    }
+  </script>
+</body>
+
+</html>
